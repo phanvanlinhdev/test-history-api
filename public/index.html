@@ -1,0 +1,43 @@
+<html>
+<h1>Hello</h1>
+
+<a href="/" data-link>Home</a>
+<a href="/setting" data-link>Setting</a>
+<a href="/contact" data-link>Contact</a>
+<div id="app"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        document.body.addEventListener("click", e => {
+            if (e.target.matches("[data-link]")) {
+                e.preventDefault();
+                let url = e.target.href
+                console.log(url)
+                history.pushState(null, null, url);
+
+                router()
+            }
+        });
+
+        router()
+    });
+
+    window.addEventListener("popstate", function () {
+        console.log("pop "+location.pathname)
+        router()
+    })
+
+    const router = async () => {
+        const routes = [
+            { path: "/", view: "Abc" },
+            { path: "/setting", view: "Setting" },
+            { path: "/contact", view: "Contact" }
+        ];
+        let match = routes.find(route => location.pathname === route.path)
+        const view = match.view
+        document.querySelector("#app").innerHTML = view;
+    };
+</script>
+
+</html>
